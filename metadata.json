@@ -1,0 +1,6 @@
+{
+  "name": "Douaa & Basma",
+  "description": "الصفحة الرسمية لعلامة دعاء وبسمة للمأكولات والعصائر والتحليات المنزلية الفاخرة بالمغرب - قريباً",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
