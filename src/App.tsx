@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, CheckCircle2, MessageSquare, Instagram, Facebook } from 'lucide-react';
+import { MessageSquare, Instagram, Facebook } from 'lucide-react';
 import LuxuryLogo from './components/LuxuryLogo';
 import FloatingParticles from './components/FloatingParticles';
 import NotificationToast from './components/NotificationToast';
 import AdminDashboard from './components/AdminDashboard';
 
 export default function App() {
-  const [phone, setPhone] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [subscribed, setSubscribed] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   
   // Notification Toast state
@@ -52,55 +49,6 @@ export default function App() {
     setToastMessage(msg);
     setToastSuccess(success);
     setShowToast(true);
-  };
-
-  const handleSubscribeMail = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!phone) {
-      handleShowMessage('يرجى إدخال رقم الهاتف بشكل صحيح.', false);
-      return;
-    }
-    const phoneRegex = /^[0-9+\s-]{8,15}$/;
-    if (!phoneRegex.test(phone)) {
-      handleShowMessage('رقم الهاتف المكتوب غير صالح.', false);
-      return;
-    }
-
-    setLoading(true);
-
-    // Call server API for centralized registration
-    fetch('/api/register-phone', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone })
-    })
-    .then(() => {
-      // Also write locally as fallback/cache
-      const existing = JSON.parse(localStorage.getItem('waitlist_phones') || '[]');
-      if (!existing.includes(phone)) {
-        existing.push(phone);
-        localStorage.setItem('waitlist_phones', JSON.stringify(existing));
-      }
-      setSubscribed(true);
-      setLoading(false);
-      
-      setPhone('');
-      handleShowMessage('تم تسجيل رقم هاتفك بنجاح! سنقوم بإعلامك عند الإطلاق.', true);
-    })
-    .catch((err) => {
-      console.warn("Register fallback locally due to connection error:", err);
-      // Fallback
-      const existing = JSON.parse(localStorage.getItem('waitlist_phones') || '[]');
-      if (!existing.includes(phone)) {
-        existing.push(phone);
-        localStorage.setItem('waitlist_phones', JSON.stringify(existing));
-      }
-      setSubscribed(true);
-      setLoading(false);
-      
-      setPhone('');
-      handleShowMessage('تم تسجيل رقم هاتفك بنجاح! سنقوم بإعلامك عند الإطلاق.', true);
-    });
   };
 
   const handleWhatsappClick = () => {
@@ -166,49 +114,12 @@ export default function App() {
           </p>
         </div>
 
-        {/* Lead Capture Form & CTAs (Symmetrical, premium, aligned with logo colors) */}
-        <div className="w-full max-w-md space-y-4">
-          {subscribed ? (
-            <div className="p-4 bg-brand-green/10 border border-brand-green/20 rounded-2xl flex items-center justify-center gap-3 animate-fade-in">
-              <CheckCircle2 className="w-5 h-5 text-brand-green shrink-0" />
-              <p className="text-xs font-bold text-brand-green-dark leading-relaxed">
-                تم تسجيل رقم هاتفك بنجاح! سنقوم بدعوتك وإرسال باقة تذوق كبار الشخصيات بمجرد الإطلاق الرسمي.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubscribeMail} className="w-full flex flex-col sm:flex-row gap-2">
-              <div className="relative flex-1">
-                <div className="absolute inset-y-0 right-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Phone className="w-4 h-4" />
-                </div>
-                <input
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="رقم واتساب (مثال: 0612345678)"
-                  className="w-full py-3.5 pr-10 pl-4 rounded-xl border border-brand-gold/30 focus:border-brand-purple focus:ring-1 focus:ring-brand-purple/20 bg-white/90 backdrop-blur-md text-right text-slate-800 placeholder-slate-400 font-sans text-xs outline-none transition-all duration-150"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="py-3.5 px-6 rounded-xl bg-brand-purple hover:bg-brand-purple-dark text-white font-bold font-sans text-xs hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer shadow-lg shadow-brand-purple/15 flex items-center justify-center gap-2 shrink-0"
-              >
-                {loading ? (
-                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  "أخبرني فور الإطلاق"
-                )}
-              </button>
-            </form>
-          )}
-
-          {/* Symmetrical Instant WhatsApp Direct CTA & Socials */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+        {/* Symmetrical Instant WhatsApp Direct CTA & Socials */}
+        <div className="w-full max-w-md pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <button
               onClick={handleWhatsappClick}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-brand-green/30 hover:border-brand-green bg-brand-green/5 hover:bg-brand-green/10 text-brand-green text-xs font-bold font-sans transition-all duration-200 cursor-pointer hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-brand-green/30 hover:border-brand-green bg-brand-green/5 hover:bg-brand-green/10 text-brand-green text-sm font-bold font-sans transition-all duration-200 cursor-pointer hover:scale-[1.02]"
             >
               <MessageSquare className="w-4 h-4 text-brand-green" />
               تواصل معنا مباشرة عبر واتساب
@@ -220,17 +131,17 @@ export default function App() {
                 href="https://instagram.com/douaabasma_1" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full border border-brand-purple/10 hover:border-brand-gold text-[#561C76] hover:text-[#C19641] bg-brand-purple/5 hover:bg-brand-purple/10 flex items-center justify-center transition-all duration-200"
+                className="w-9 h-9 rounded-full border border-brand-purple/10 hover:border-brand-gold text-[#561C76] hover:text-[#C19641] bg-brand-purple/5 hover:bg-brand-purple/10 flex items-center justify-center transition-all duration-200"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="w-4.5 h-4.5" />
               </a>
               <a 
                 href="https://m.facebook.com/douaabasma01/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full border border-brand-purple/10 hover:border-brand-gold text-[#561C76] hover:text-[#C19641] bg-brand-purple/5 hover:bg-brand-purple/10 flex items-center justify-center transition-all duration-200"
+                className="w-9 h-9 rounded-full border border-brand-purple/10 hover:border-brand-gold text-[#561C76] hover:text-[#C19641] bg-brand-purple/5 hover:bg-brand-purple/10 flex items-center justify-center transition-all duration-200"
               >
-                <Facebook className="w-4 h-4" />
+                <Facebook className="w-4.5 h-4.5" />
               </a>
             </div>
           </div>
