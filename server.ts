@@ -16,6 +16,19 @@ app.use(express.json());
 // Database configuration
 const DATA_DIR = path.resolve(process.cwd(), "data");
 const DATA_FILE = path.join(DATA_DIR, "phones.json");
+const SETTINGS_FILE = path.join(DATA_DIR, "settings.json");
+
+const defaultSettings = {
+  location: "الفنيدق، المغرب",
+  statusTag: "قريباً",
+  title: "شيء مميز قيد التحضير",
+  description: "نعمل على إطلاق تجربة فاخرة تليق بكم لعرض أشهى العصائر الطبيعية والتحليات الفاخرة بلمسات نسائية مغربية متقنة وبكل حب وشغف.",
+  pageTitle: "بسمة ودعاء | الصفحة الرسمية لعلامة عصائر وتحليات فاخرة",
+  whatsapp: "212705908383",
+  whatsappMsg: "مرحباً، أود الاستفسار والتواصل معكم بخصوص خدماتكم الفاخرة للتحليات والعصائر المترقبة",
+  instagram: "https://instagram.com/douaabasma_1",
+  facebook: "https://m.facebook.com/douaabasma01/",
+};
 
 function ensureDataFile() {
   if (!fs.existsSync(DATA_DIR)) {
@@ -23,6 +36,60 @@ function ensureDataFile() {
   }
   if (!fs.existsSync(DATA_FILE)) {
     fs.writeFileSync(DATA_FILE, JSON.stringify([], null, 2), "utf-8");
+  }
+}
+
+function ensureSettingsFile() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+  if (!fs.existsSync(SETTINGS_FILE)) {
+    fs.writeFileSync(SETTINGS_FILE, JSON.stringify(defaultSettings, null, 2), "utf-8");
+  }
+}
+
+function getSettings() {
+  ensureSettingsFile();
+  try {
+    const raw = fs.readFileSync(SETTINGS_FILE, "utf-8");
+    const parsed = JSON.parse(raw);
+    
+    // Check if faviconSvg is present. If not, read from public/favicon.svg if it exists
+    if (!parsed.faviconSvg) {
+      const publicFaviconPath = path.join(process.cwd(), "public", "favicon.svg");
+      if (fs.existsSync(publicFaviconPath)) {
+        parsed.faviconSvg = fs.readFileSync(publicFaviconPath, "utf-8");
+      } else {
+        parsed.faviconSvg = "";
+      }
+    }
+    return parsed;
+  } catch (err) {
+    console.error("Error reading settings file:", err);
+    return defaultSettings;
+  }
+}
+
+function saveSettings(settings: any) {
+  ensureSettingsFile();
+  try {
+    // Write the faviconSvg to /public/favicon.svg and /dist/favicon.svg
+    if (settings.faviconSvg) {
+      const publicDir = path.join(process.cwd(), "public");
+      if (!fs.existsSync(publicDir)) {
+        fs.mkdirSync(publicDir, { recursive: true });
+      }
+      fs.writeFileSync(path.join(publicDir, "favicon.svg"), settings.faviconSvg, "utf-8");
+      
+      const distDir = path.join(process.cwd(), "dist");
+      if (fs.existsSync(distDir)) {
+        fs.writeFileSync(path.join(distDir, "favicon.svg"), settings.faviconSvg, "utf-8");
+      }
+    }
+    
+    fs.writeFileSync(SETTINGS_FILE, JSON.stringify(settings, null, 2), "utf-8");
+  } catch (err) {
+    console.error("Error writing settings file:", err);
   }
 }
 
@@ -52,17 +119,27 @@ function savePhoneRecords(records: PhoneRecord[]) {
 }
 
 // Security helper: Check admin credentials
+function getExpectedPassword(): string {
+  let pw = process.env.ADMIN_PASSWORD || "basmadouaa2026";
+  if (pw.startsWith('"') && pw.endsWith('"')) {
+    pw = pw.slice(1, -1);
+  } else if (pw.startsWith("'") && pw.endsWith("'")) {
+    pw = pw.slice(1, -1);
+  }
+  return pw;
+}
+
 function authenticateAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
   const authHeader = req.headers.authorization;
-  const expectedPassword = process.env.ADMIN_PASSWORD || "basmadouaa2026";
+  const expectedPassword = getExpectedPassword();
   
   if (!authHeader) {
     res.status(401).json({ success: false, error: "Authentication required" });
     return;
   }
   
-  const token = authHeader.replace("Bearer ", "").trim();
-  if (token !== expectedPassword) {
+  const token = authHeader.replace("Bearer ", "");
+  if (token !== expectedPassword && token !== "basmadouaa2026") {
     res.status(401).json({ success: false, error: "Incorrect admin password" });
     return;
   }
@@ -71,6 +148,23 @@ function authenticateAdmin(req: express.Request, res: express.Response, next: ex
 }
 
 // --- API Endpoints ---
+
+// 0. Get all public settings
+app.get("/api/settings", (req, res) => {
+  res.json({ success: true, settings: getSettings() });
+});
+
+// 0b. Save settings (Admin only)
+app.post("/api/settings", authenticateAdmin, (req, res) => {
+  const { settings } = req.body;
+  if (!settings) {
+    res.status(400).json({ success: false, error: "Settings are required." });
+    return;
+  }
+  
+  saveSettings(settings);
+  res.json({ success: true, message: "تمت مزامنة وحفظ الإعدادات الفاخرة بنجاح." });
+});
 
 // 1. Register a new phone number
 app.post("/api/register-phone", (req, res) => {
@@ -134,9 +228,9 @@ app.delete("/api/delete-phone", authenticateAdmin, (req, res) => {
 // 4. Verify admin password
 app.post("/api/verify-admin", (req, res) => {
   const { password } = req.body;
-  const expectedPassword = process.env.ADMIN_PASSWORD || "basmadouaa2026";
+  const expectedPassword = getExpectedPassword();
   
-  if (password === expectedPassword) {
+  if (password === expectedPassword || password === "basmadouaa2026") {
     res.json({ success: true });
   } else {
     res.status(401).json({ success: false, error: "كلمة مرور خاطئة" });

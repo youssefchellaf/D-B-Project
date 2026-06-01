@@ -4,9 +4,10 @@ interface LuxuryLogoProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   withTagline?: boolean;
+  onClick?: () => void;
 }
 
-export default function LuxuryLogo({ size = 'md', className = '', withTagline = true }: LuxuryLogoProps) {
+export default function LuxuryLogo({ size = 'md', className = '', withTagline = true, onClick }: LuxuryLogoProps) {
   // Brand typographical sizing
   const titleSize = {
     sm: 'text-3xl xs:text-4xl sm:text-5xl',
@@ -27,7 +28,10 @@ export default function LuxuryLogo({ size = 'md', className = '', withTagline = 
   };
 
   return (
-    <div className={`flex flex-col items-center justify-center text-center select-none ${className}`}>
+    <div 
+      onClick={onClick}
+      className={`flex flex-col items-center justify-center text-center select-none ${onClick ? 'cursor-pointer active:scale-[0.99] transition-transform duration-100' : ''} ${className}`}
+    >
       
       {/* Brand Elegant Text Typography in a single line, never wrapping, with professional tracking and serif fonts */}
       <h1 dir="ltr" className={`font-display tracking-wide ${titleSize[size]} text-center whitespace-nowrap flex items-center justify-center gap-x-2 sm:gap-x-3 select-none`}>

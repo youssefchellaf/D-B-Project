@@ -8,17 +8,72 @@ import AdminDashboard from './components/AdminDashboard';
 export default function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   
+  // Dynamic Settings state with defaults
+  const [settings, setSettings] = useState({
+    location: "الفنيدق، المغرب",
+    statusTag: "قريباً",
+    title: "شيء مميز قيد التحضير",
+    description: "نعمل على إطلاق تجربة فاخرة تليق بكم لعرض أشهى العصائر الطبيعية والتحليات الفاخرة بلمسات نسائية مغربية متقنة وبكل حب وشغف.",
+    pageTitle: "بسمة ودعاء | الصفحة الرسمية لعلامة عصائر وتحليات فاخرة",
+    whatsapp: "212705908383",
+    whatsappMsg: "مرحباً، أود الاستفسار والتواصل معكم بخصوص خدماتكم الفاخرة للتحليات والعصائر المترقبة",
+    instagram: "https://instagram.com/douaabasma_1",
+    facebook: "https://m.facebook.com/douaabasma01/",
+  });
+  
   // Notification Toast state
   const [toastMessage, setToastMessage] = useState<string>('');
   const [toastSuccess, setToastSuccess] = useState<boolean>(true);
   const [showToast, setShowToast] = useState<boolean>(false);
 
+  // Admin state indicator
+  const [isAdminState, setIsAdminState] = useState<boolean>(false);
+
+  // Logo secret 5 clicks click count to enter admin page
+  const [logoClickCount, setLogoClickCount] = useState<number>(0);
+
+  const handleLogoClick = () => {
+    setLogoClickCount(prev => {
+      const next = prev + 1;
+      if (next >= 5) {
+        setIsAdminState(true);
+        handleShowMessage("تم تصفح اللوحة الإدارية الفاخرة بنجاح!", true);
+        return 0;
+      }
+      return next;
+    });
+  };
+
+  // Reset the click count after 3 seconds of silence
+  useEffect(() => {
+    if (logoClickCount > 0) {
+      const timer = setTimeout(() => {
+        setLogoClickCount(0);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [logoClickCount]);
+
+  // Load Settings from server
+  useEffect(() => {
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.settings) {
+          setSettings(data.settings);
+        }
+      })
+      .catch(err => console.error("Error loading settings:", err));
+  }, []);
+
   // Force Arabic RTL & document setup globally
   useEffect(() => {
     document.documentElement.dir = 'rtl';
     document.documentElement.lang = 'ar';
-    document.title = 'بسمة ودعاء | الصفحة الرسمية لعلامة عصائر وتحليات فاخرة';
-  }, []);
+    if (settings.pageTitle) {
+      document.title = settings.pageTitle;
+    }
+  }, [settings.pageTitle]);
 
   // Listen to path updates (popstate)
   useEffect(() => {
@@ -52,15 +107,23 @@ export default function App() {
   };
 
   const handleWhatsappClick = () => {
-    const text = encodeURIComponent("مرحباً، أود الاستفسار والتواصل معكم بخصوص خدماتكم الفاخرة للتحليات والعصائر المترقبة");
-    window.open(`https://wa.me/212705908383?text=${text}`, '_blank');
+    const text = encodeURIComponent(settings.whatsappMsg);
+    window.open(`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, '')}?text=${text}`, '_blank');
   };
 
-  // Render Admin Dashboard if path is /admin
-  if (currentPath.startsWith('/admin')) {
+  const handleBackToMain = () => {
+    setIsAdminState(false);
+    if (currentPath.startsWith('/admin')) {
+      window.history.pushState({}, '', '/');
+      setCurrentPath('/');
+    }
+  };
+
+  // Render Admin Dashboard if path is /admin or state indicates admin view
+  if (isAdminState || currentPath.startsWith('/admin')) {
     return (
       <>
-        <AdminDashboard />
+        <AdminDashboard onBack={handleBackToMain} />
         {showToast && (
           <NotificationToast 
             message={toastMessage} 
@@ -85,10 +148,10 @@ export default function App() {
 
       {/* Symmetrical Top Anchor Header */}
       <div className="w-full max-w-md flex justify-between items-center z-10 text-[10px] sm:text-xs font-sans font-bold text-brand-purple/70">
-        <span className="tracking-widest text-[#C19641]">قريباً</span>
+        <span className="tracking-widest text-[#C19641]">{settings.statusTag}</span>
         <span className="text-[#2E4F32] flex items-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-[#2E4F32] animate-pulse" />
-          الفنيدق، المغرب
+          {settings.location}
         </span>
       </div>
 
@@ -97,20 +160,26 @@ export default function App() {
         
         {/* Luxury Custom-Crafted Arabesque Logo SVG - matches the uploaded logo perfectly */}
         <div className="transform scale-95 sm:scale-105 transition-all duration-500">
-          <LuxuryLogo size="md" className="drop-shadow-[0_4px_20px_rgba(193,150,65,0.12)]" />
+          <LuxuryLogo onClick={handleLogoClick} size="md" className="drop-shadow-[0_4px_20px_rgba(193,150,65,0.12)]" />
         </div>
 
         {/* Dynamic Typographical Heading */}
         <div className="space-y-3">
           <h1 className="font-serif font-black text-3xl xs:text-4xl sm:text-5xl md:text-6xl text-[#3F1058] tracking-tight leading-tight whitespace-nowrap">
-            شيء مميز{" "}
-            <span className="bg-gradient-to-r from-[#2E4F32] via-[#C19641] to-[#561C76] bg-clip-text text-transparent">
-              قيد التحضير
-            </span>
+            {settings.title.includes(' ') ? (
+              <>
+                {settings.title.substring(0, settings.title.indexOf(' '))}{" "}
+                <span className="bg-gradient-to-r from-[#2E4F32] via-[#C19641] to-[#561C76] bg-clip-text text-transparent">
+                  {settings.title.substring(settings.title.indexOf(' ') + 1)}
+                </span>
+              </>
+            ) : (
+              settings.title
+            )}
           </h1>
           
           <p className="font-sans font-medium text-slate-600 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-            نعمل على إطلاق تجربة فاخرة تليق بكم لعرض أشهى العصائر الطبيعية والتحليات الفاخرة بلمسات نسائية مغربية متقنة وبكل حب وشغف.
+            {settings.description}
           </p>
         </div>
 
@@ -128,7 +197,7 @@ export default function App() {
             {/* Quick Iconic Links matching brand theme */}
             <div className="flex items-center gap-3">
               <a 
-                href="https://instagram.com/douaabasma_1" 
+                href={settings.instagram} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full border border-brand-purple/10 hover:border-brand-gold text-[#561C76] hover:text-[#C19641] bg-brand-purple/5 hover:bg-brand-purple/10 flex items-center justify-center transition-all duration-200"
@@ -136,7 +205,7 @@ export default function App() {
                 <Instagram className="w-4.5 h-4.5" />
               </a>
               <a 
-                href="https://m.facebook.com/douaabasma01/" 
+                href={settings.facebook} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full border border-brand-purple/10 hover:border-brand-gold text-[#561C76] hover:text-[#C19641] bg-brand-purple/5 hover:bg-brand-purple/10 flex items-center justify-center transition-all duration-200"
@@ -156,7 +225,7 @@ export default function App() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
           </span>
-          قريباً | COMING SOON
+          {settings.statusTag} | COMING SOON
         </div>
         
         <p className="text-[10px] text-slate-400 font-sans tracking-wide">
