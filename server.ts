@@ -20,14 +20,14 @@ const SETTINGS_FILE = path.join(DATA_DIR, "settings.json");
 
 const defaultSettings = {
   location: "الفنيدق، المغرب",
-  statusTag: "قريباً",
+  statusTag: "قريباً...",
   title: "شيء مميز قيد التحضير",
   description: "نعمل على إطلاق تجربة فاخرة تليق بكم لعرض أشهى العصائر الطبيعية والتحليات الفاخرة بلمسات نسائية مغربية متقنة وبكل حب وشغف.",
   pageTitle: "بسمة ودعاء | الصفحة الرسمية لعلامة عصائر وتحليات فاخرة",
   whatsapp: "212705908383",
   whatsappMsg: "مرحباً، أود الاستفسار والتواصل معكم بخصوص خدماتكم الفاخرة للتحليات والعصائر المترقبة",
-  instagram: "https://instagram.com/douaabasma_1",
-  facebook: "https://m.facebook.com/douaabasma01/",
+  instagram: "https://instagram.com/douaabasma75",
+  facebook: "https://facebook.com/douaabasma75",
 };
 
 function ensureDataFile() {

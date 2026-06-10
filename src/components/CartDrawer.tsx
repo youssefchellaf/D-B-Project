@@ -36,11 +36,23 @@ export default function CartDrawer({
     }
 
     setLoading(true);
-    setTimeout(() => {
+
+    // Synchronize to backend waitlist
+    const payload = `${name} | ${phone} | ${city === 'Fnideq' ? 'الفنيدق' : city === 'Mdiq' ? 'المضيق' : 'تطوان'} | السلال: ${cartCount} | ملاحظات: ${notes || 'لا يوجد'}`;
+
+    fetch('/api/register-phone', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ phone: payload })
+    })
+    .catch(err => console.error("Error registering waitlist phone:", err))
+    .finally(() => {
       setSuccess(true);
       setLoading(false);
-      onShowMessage('تم استلام طلب التذوق المسبق وتثبيت اسمك بقائمة كبار الشخصيات!', true);
-    }, 1500);
+      onShowMessage('تم استلام طلب التذوق المسبق وتثبيت اسمك بقائمة الانتظار بنجاح!', true);
+    });
   };
 
   if (!isOpen) return null;

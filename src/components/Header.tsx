@@ -20,52 +20,78 @@ export default function Header({ cartCount, onOpenCart, onShowWaitlist }: Header
   ];
 
   return (
-    <header className="sticky top-0 w-full bg-white/90 backdrop-blur-md z-40 border-b border-brand-ivory select-none transition-all duration-300">
+    <header className="sticky top-0 w-full bg-white/95 backdrop-blur-md z-40 border-b border-brand-gold/10 select-none transition-all duration-300 shadow-sm shadow-brand-purple/2 animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
         
-        {/* Left Side: Mustard Gold Cart Button with Purple Badge */}
-        <button
-          id="btn-cart"
-          onClick={onOpenCart}
-          className="relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-[#D4AF37] hover:bg-[#AA841B] text-white hover:scale-105 active:scale-95 transition-all duration-200"
-          style={{
-            borderRadius: '16px 4px 16px 16px',
-            boxShadow: '0 4px 12px rgba(212, 175, 55, 0.25)',
-          }}
-          aria-label="Shopping Cart"
-        >
-          {/* Cart SVG Icon */}
-          <ShoppingBag className="w-6 h-6 sm:w-7 sm:h-7" />
-          
-          {/* Purple Badge with Item Count */}
-          {cartCount > 0 && (
-            <span
-              className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-[#5A148E] text-white text-xs font-bold rounded-full border-2 border-white animate-pulse"
-              style={{ boxShadow: '0 2px 4px rgba(90, 20, 142, 0.4)' }}
-            >
-              {cartCount}
-            </span>
-          )}
-        </button>
+        {/* Left Side: Cart Button + Desktop CTA */}
+        <div className="flex items-center gap-3">
+          <button
+            id="btn-cart"
+            onClick={onOpenCart}
+            className="relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 bg-[#D4AF37] hover:bg-[#AA841B] text-white hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+            style={{
+              borderRadius: '12px 4px 12px 12px',
+              boxShadow: '0 4px 12px rgba(212, 175, 55, 0.25)',
+            }}
+            aria-label="Shopping Cart"
+          >
+            {/* Cart SVG Icon */}
+            <ShoppingBag className="w-5 h-5 sm:w-6 sm:h-6" />
+            
+            {/* Purple Badge with Item Count */}
+            {cartCount > 0 && (
+              <span
+                className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 bg-[#5A148E] text-white text-[10px] font-bold rounded-full border-2 border-white animate-pulse"
+                style={{ boxShadow: '0 2px 4px rgba(90, 20, 142, 0.4)' }}
+              >
+                {cartCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            id="header-desktop-waitlist"
+            onClick={onShowWaitlist}
+            className="hidden md:inline-flex items-center gap-1.5 px-5 py-2.5 bg-brand-purple hover:bg-[#3E0B64] text-white rounded-xl text-xs font-bold font-sans transition-all duration-200 hover:scale-[1.02] shadow-sm cursor-pointer"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-brand-gold animate-pulse" />
+            انضم لقائمة الانتظار 🚀
+          </button>
+        </div>
 
         {/* Center: Brand Name & Symmetrical Emblem */}
-        <div className="flex-1 flex justify-center">
-          <a href="#hero" className="flex flex-col items-center">
+        <div className="flex items-center justify-center">
+          <a href="#hero" className="flex flex-col items-center hover:scale-[1.02] transition-transform">
             {/* Elegant Brand representation */}
             <LuxuryLogo size="sm" />
           </a>
         </div>
 
-        {/* Right Side: Hamburger Menu Button */}
-        <button
-          id="btn-mobile-menu"
-          onClick={() => setMobileMenuOpen(true)}
-          className="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-ivory hover:bg-brand-gold/10 text-brand-purple hover:scale-105 active:scale-95 transition-all duration-200 border border-brand-gold/20"
-          style={{ width: '44px', height: '44px' }}
-          aria-label="Open navigation menu"
-        >
-          <Menu className="w-5 h-5" />
-        </button>
+        {/* Right Side: Desktop Nav Links (Hidden on Mobile) + Hamburger Menu Button */}
+        <div className="flex items-center gap-4">
+          <nav className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="text-xs sm:text-sm font-bold text-slate-700 hover:text-brand-purple transition-colors relative group py-1 font-sans"
+              >
+                {link.name}
+                <span className="absolute bottom-0 right-0 w-0 h-[2px] bg-brand-gold transition-all duration-300 group-hover:w-full" />
+              </a>
+            ))}
+          </nav>
+
+          {/* Hamburger Menu Button */}
+          <button
+            id="btn-mobile-menu"
+            onClick={() => setMobileMenuOpen(true)}
+            className="md:hidden flex items-center justify-center w-11 h-11 rounded-xl bg-brand-ivory hover:bg-brand-gold/10 text-brand-purple hover:scale-105 active:scale-95 transition-all duration-150 border border-brand-gold/20 cursor-pointer"
+            aria-label="Open navigation menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
       {/* Mobile Drawer Navigation (Slide out from RIGHT for RTL Layout) */}

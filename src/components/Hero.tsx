@@ -3,11 +3,19 @@ import { Mail, CheckCircle2, MessageSquare, ArrowDown, Sparkles } from 'lucide-r
 import LuxuryLogo from './LuxuryLogo';
 
 interface HeroProps {
+  settings: {
+    title: string;
+    description: string;
+    statusTag: string;
+    whatsapp: string;
+    whatsappMsg: string;
+  };
   onSubscribe: (email: string) => void;
   onShowMessage: (msg: string, success: boolean) => void;
+  onLogoClick?: () => void;
 }
 
-export default function Hero({ onSubscribe, onShowMessage }: HeroProps) {
+export default function Hero({ settings, onSubscribe, onShowMessage, onLogoClick }: HeroProps) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
@@ -35,8 +43,8 @@ export default function Hero({ onSubscribe, onShowMessage }: HeroProps) {
   };
 
   const handleWhatsappClick = () => {
-    const text = encodeURIComponent("مرحباً، أود الاستفسار والتواصل معكم بخصوص خدماتكم الفاخرة للتحليات والعصائر المترقبة");
-    window.open(`https://wa.me/212705908383?text=${text}`, '_blank');
+    const text = encodeURIComponent(settings.whatsappMsg);
+    window.open(`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, '')}?text=${text}`, '_blank');
   };
 
   // Image path from our generated images
@@ -68,8 +76,10 @@ export default function Hero({ onSubscribe, onShowMessage }: HeroProps) {
             boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(255, 255, 255, 0.6)'
           }}
         >
-          {/* Logo element top center */}
-          <LuxuryLogo size="lg" withTagline={true} className="animate-pulse-slow mb-4" />
+          {/* Logo element top center with Admin triggering enabled */}
+          <div className="cursor-pointer hover:scale-[1.01] transition-transform" onClick={onLogoClick} title="بسمة ودعاء ⚜️">
+            <LuxuryLogo size="lg" withTagline={true} className="animate-pulse-slow mb-4" />
+          </div>
 
           {/* Badge: "الموقع الرسمي قيد الإطلاق" + "مشروع نسائي منزلي فاخر" */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -81,7 +91,7 @@ export default function Hero({ onSubscribe, onShowMessage }: HeroProps) {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D4AF37] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D4AF37]"></span>
               </span>
-              🚀 الموقع الرسمي قيد الإطلاق
+              🚀 {settings.statusTag} | الموقع قيد الإطلاق
             </span>
 
             <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-bold text-[#D4AF37] bg-brand-cream border border-brand-gold/30">
@@ -92,17 +102,17 @@ export default function Hero({ onSubscribe, onShowMessage }: HeroProps) {
 
           {/* Heading layout */}
           <div className="space-y-3">
-            <h2 className="font-serif font-black text-4xl sm:text-6xl text-brand-purple tracking-tight leading-tight">
-              شيء مميز قادم قريباً
+            <h2 className="font-serif font-black text-3xl sm:text-5xl md:text-6xl text-brand-purple tracking-tight leading-tight">
+              {settings.title}
             </h2>
-            <p className="font-serif font-bold text-2xl sm:text-3xl text-brand-gold">
+            <p className="font-serif font-bold text-xl sm:text-2xl text-brand-gold">
               مذاق طبيعي... بلمسة فاخرة
             </p>
           </div>
 
           {/* Subheadline description */}
-          <p className="font-sans text-base sm:text-lg text-slate-700 leading-relaxed max-w-xl mx-auto font-medium">
-            نعمل على إطلاق تجربة فاخرة لعرض أشهى العصائر الطبيعية المبردة المبتكرة والتحليات المنزلية المغربية بطابع راقٍ يستحقه ضيوفكم الكرام بمدينة الفنيدق والمناطق المجاورة.
+          <p className="font-sans text-sm sm:text-base text-slate-700 leading-relaxed max-w-xl mx-auto font-medium">
+            {settings.description}
           </p>
 
           <footer className="space-y-6 pt-4 border-t border-brand-gold/15">
