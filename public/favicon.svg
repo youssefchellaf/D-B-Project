@@ -1,95 +1,115 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <!-- Symmetrical Moroccan Tile Favicon for Douaa & Basma -->
-  <defs>
-    <!-- Shadow for luxury depth effect -->
-    <filter id="subtle-shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#561C76" flood-opacity="0.08"/>
-    </filter>
-    
-    <!-- One-quarter of the inner symmetrical elements (Leaves and Seeds) -->
-    <g id="quarter-element">
-      <!-- 1. Major Green Leaf (straight up on vertical axis, shared/split or offset) -->
-      <!-- We project a full vertical leaf with a slight offset or draw half-leaves -->
-      <path d="M 256 256 C 244 190, 242 145, 256 100 C 270 145, 268 190, 256 256 Z" fill="#2E4F32" />
-      
-      <!-- 2. Diagonal Green Leaf (oriented at 45 degrees) -->
-      <path d="M 256 256 C 285 200, 320 180, 350 162 C 332 192, 312 227, 256 256 Z" fill="#2E4F32" />
-      
-      <!-- 3. Mustard Gold Teardrop/Seed Accent (oriented at 45 degrees, positioned further out) -->
-      <path d="M 368 144 C 378 136, 386 128, 396 142 C 382 152, 374 160, 368 144 Z" fill="#C19641" />
-      <!-- Stylized Mustard Gold Seed close to center axis -->
-      <path d="M 296 172 C 304 168, 312 178, 304 186 C 294 188, 290 178, 296 172 Z" fill="#C19641" />
+  <!-- Background is transparent for a clean favicon -->
+  <style>
+    .purple { fill: #4a154b; }
+    .cream { fill: #FAF6EB; }
+    .green { fill: #1E6B3F; }
+    .gold { fill: #D19A2A; }
+  </style>
+
+  <g transform="translate(256, 256)">
+    <!-- 1. Outer Royal Purple Scalloped Diamond Frame -->
+    <path class="purple" d="
+      M 0 -236 
+      Q 26 -200 48 -180 
+      Q 110 -195 140 -140
+      Q 195 -110 180 -48
+      Q 200 -26 236 0
+      Q 200 26 180 48
+      Q 195 110 140 140
+      Q 110 195 48 180
+      Q 26 200 0 236
+      Q -26 200 -48 180
+      Q -110 195 -140 140
+      Q -195 110 -180 48
+      Q -200 26 -236 0
+      Q -200 -26 -180 -48
+      Q -195 -110 -140 -140
+      Q -110 -195 -48 -180
+      Q -26 -200 0 -236 Z" />
+
+    <!-- 2. Inner Cream Scalloped Diamond Frame (offset slightly inside) -->
+    <path class="cream" d="
+      M 0 -214 
+      Q 23 -180 43 -162 
+      Q 98 -175 125 -125
+      Q 175 -98 162 -43
+      Q 180 -23 214 0
+      Q 180 23 162 43
+      Q 175 98 125 125
+      Q 98 175 43 162
+      Q 23 180 0 214
+      Q -23 180 -43 162
+      Q -98 175 -125 125
+      Q -175 98 -162 43
+      Q -180 23 -214 0
+      Q -180 -23 -162 -43
+      Q -175 -98 -125 -125
+      Q -98 -175 -43 -162
+      Q -23 -180 0 -214 Z" />
+
+    <!-- 3. Inner Purple Outline tracking the shape -->
+    <path fill="none" stroke="#4a154b" stroke-width="8" d="
+      M 0 -192 
+      Q 20 -160 38 -144 
+      Q 86 -155 110 -110
+      Q 155 -86 144 -38
+      Q 160 -20 192 0
+      Q 160 20 144 38
+      Q 155 86 110 110
+      Q 86 155 38 144
+      Q 20 160 0 192
+      Q -20 160 -38 144
+      Q -86 155 -110 110
+      Q -155 86 -144 38
+      Q -160 20 -192 0
+      Q -160 -20 -144 -38
+      Q -155 -86 -110 -110
+      Q -86 -155 -38 -144
+      Q -20 -160 0 -192 Z" />
+
+    <!-- 4. Corner/Diagonal Mustard Gold Accents -->
+    <!-- Top-Right Gold rot -->
+    <path class="gold" d="M 68 -68 C 95 -95, 115 -75, 88 -48 C 68 -28, 48 -48, 68 -68 Z" transform="rotate(0)" />
+    <!-- Bottom-Right Gold rot -->
+    <path class="gold" d="M 68 -68 C 95 -95, 115 -75, 88 -48 C 68 -28, 48 -48, 68 -68 Z" transform="rotate(90)" />
+    <!-- Bottom-Left Gold rot -->
+    <path class="gold" d="M 68 -68 C 95 -95, 115 -75, 88 -48 C 68 -28, 48 -48, 68 -68 Z" transform="rotate(180)" />
+    <!-- Top-Left Gold rot -->
+    <path class="gold" d="M 68 -68 C 95 -95, 115 -75, 88 -48 C 68 -28, 48 -48, 68 -68 Z" transform="rotate(270)" />
+
+    <!-- 5. Emerald Green Leaves (8-way symmetry: 4 major axes + 4 diagonal axes) -->
+    <!-- Major Axes Green Leaves (Larger, pointing Up, Down, Left, Right) -->
+    <!-- Top Leaf -->
+    <path class="green" d="M 0 -150 C -25 -100, -20 -50, 0 -30 C 20 -50, 25 -100, 0 -150 Z" />
+    <!-- Bottom Leaf -->
+    <path class="green" d="M 0 150 C -25 100, -20 50, 0 30 C 20 50, 25 100, 0 150 Z" />
+    <!-- Right Leaf -->
+    <path class="green" d="M 150 0 C 100 -25, 50 -20, 30 0 C 50 20, 100 25, 150 0 Z" />
+    <!-- Left Leaf -->
+    <path class="green" d="M -150 0 C -100 -25, -50 -20, -30 0 C -50 20, -100 25, -150 0 Z" />
+
+    <!-- Diagonal Green Leaves (Slightly shorter, pointing 45deg, 135deg, 225deg, 315deg) -->
+    <g transform="rotate(45)">
+      <path class="green" d="M 0 -115 C -18 -80, -15 -40, 0 -22 C 15 -40, 18 -80, 0 -115 Z" />
+      <path class="green" d="M 0 115 C -18 80, -15 40, 0 22 C 15 40, 18 80, 0 115 Z" />
+      <path class="green" d="M 115 0 C 80 -18, 40 -15, 22 0 C 40 18, 80 15, 115 0 Z" />
+      <path class="green" d="M -115 0 C -80 -18, -40 -15, -22 0 C -40 18, -80 15, -115 0 Z" />
     </g>
-  </defs>
 
-  <!-- Ground circle with warm off-white, precisely matching user's image background -->
-  <circle cx="256" cy="256" r="248" fill="#FDFCF7" />
-
-  <!-- Outer deep purple scalloped tile contour, completely symmetrical and handcrafted -->
-  <g filter="url(#subtle-shadow)">
-    <!-- Main purple background layer -->
-    <path d="M 256 24 
-             C 278 65, 282 85, 308 102
-             C 324 112, 342 102, 358 114
-             C 378 128, 382 154, 408 180
-             C 426 198, 446 202, 458 214
-             C 475 230, 488 238, 488 256
-             C 488 274, 475 282, 458 298
-             C 446 310, 426 314, 408 332
-             C 382 358, 378 384, 358 398
-             C 342 410, 324 400, 308 410
-             C 282 427, 278 447, 256 488
-             C 234 447, 230 427, 204 410
-             C 188 400, 170 410, 154 398
-             C 134 384, 130 358, 104 332
-             C 86 314, 66 310, 54 298
-             C 37 282, 24 274, 24 256
-             C 24 238, 37 230, 54 214
-             C 66 202, 86 198, 104 180
-             C 130 154, 134 128, 154 114
-             C 170 102, 188 112, 204 102
-             C 230 85, 234 65, 256 24 Z" 
-          fill="#561C76" />
-
-    <!-- Inner off-white layer to create the scalloped thick border of negative space -->
-    <path d="M 256 44 
-             C 274 81, 278 99, 302 114
-             C 316 122, 332 114, 346 124
-             C 364 136, 368 159, 391 182
-             C 407 198, 425 201, 435 211
-             C 450 226, 462 233, 462 256
-             C 462 279, 450 286, 435 301
-             C 425 311, 407 314, 391 330
-             C 368 353, 364 376, 346 388
-             C 332 398, 316 390, 302 398
-             C 278 413, 274 431, 256 468
-             C 238 431, 234 413, 210 398
-             C 196 390, 180 398, 166 388
-             C 148 376, 144 353, 121 330
-             C 105 314, 87 311, 77 301
-             C 62 286, 50 279, 50 256
-             C 50 233, 62 226, 77 211
-             C 87 201, 105 198, 121 182
-             C 144 159, 148 136, 166 124
-             C 180 114, 196 122, 210 114
-             C 234 99, 238 81, 256 44 Z" 
-          fill="#FDFCF7" />
-  </g>
-
-  <!-- Central floral structure with exact color palette -->
-  <g id="central-florals">
-    <!-- 4 Rotated groups of green leaves and gold accents -->
-    <use href="#quarter-element" transform="rotate(0 256 256)" />
-    <use href="#quarter-element" transform="rotate(90 256 256)" />
-    <use href="#quarter-element" transform="rotate(180 256 256)" />
-    <use href="#quarter-element" transform="rotate(270 256 256)" />
-    
-    <!-- Central Plum Purple four-petal center flower -->
-    <g id="center-plug" fill="#561C76">
-      <path d="M 256 256 C 246 230, 230 246, 256 220 C 282 246, 266 230, 256 256 Z" transform="rotate(45 256 256)" />
-      <path d="M 256 256 C 246 230, 230 246, 256 220 C 282 246, 266 230, 256 256 Z" transform="rotate(135 256 256)" />
-      <path d="M 256 256 C 246 230, 230 246, 256 220 C 282 246, 266 230, 256 256 Z" transform="rotate(225 256 256)" />
-      <path d="M 256 256 C 246 230, 230 246, 256 220 C 282 246, 266 230, 256 256 Z" transform="rotate(315 256 256)" />
+    <!-- 6. Central Royal Purple Flower Petals (Propeller/Cross style) -->
+    <g transform="rotate(22.5)">
+      <!-- Petal 1 -->
+      <path class="purple" d="M 0 -38 C -15 -25, -15 -5, 0 0 C 15 -5, 15 -25, 0 -38 Z" />
+      <!-- Petal 2 -->
+      <path class="purple" d="M 0 38 C -15 25, -15 5, 0 0 C 15 5, 15 25, 0 38 Z" />
+      <!-- Petal 3 -->
+      <path class="purple" d="M 38 0 C 25 -15, 5 -15, 0 0 C 5 15, 25 15, 38 0 Z" />
+      <!-- Petal 4 -->
+      <path class="purple" d="M -38 0 C -25 -15, -5 -15, 0 0 C -5 15, -25 15, -38 0 Z" />
     </g>
+
+    <!-- Central core tiny dots or decorative center -->
+    <circle cx="0" cy="0" r="5" fill="#FAF6EB" />
   </g>
 </svg>
