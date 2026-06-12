@@ -129,41 +129,11 @@ function getExpectedPassword(): string {
   return pw;
 }
 
-function authenticateAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
-  const authHeader = req.headers.authorization;
-  const expectedPassword = getExpectedPassword();
-  
-  if (!authHeader) {
-    res.status(401).json({ success: false, error: "Authentication required" });
-    return;
-  }
-  
-  const token = authHeader.replace("Bearer ", "");
-  if (token !== expectedPassword && token !== "basmadouaa2026") {
-    res.status(401).json({ success: false, error: "Incorrect admin password" });
-    return;
-  }
-  
-  next();
-}
-
 // --- API Endpoints ---
 
 // 0. Get all public settings
 app.get("/api/settings", (req, res) => {
   res.json({ success: true, settings: getSettings() });
-});
-
-// 0b. Save settings (Admin only)
-app.post("/api/settings", authenticateAdmin, (req, res) => {
-  const { settings } = req.body;
-  if (!settings) {
-    res.status(400).json({ success: false, error: "Settings are required." });
-    return;
-  }
-  
-  saveSettings(settings);
-  res.json({ success: true, message: "تمت مزامنة وحفظ الإعدادات الفاخرة بنجاح." });
 });
 
 // 1. Register a new phone number
@@ -195,46 +165,6 @@ app.post("/api/register-phone", (req, res) => {
   }
   
   res.json({ success: true, message: "Phone registered successfully." });
-});
-
-// 2. Fetch all registered numbers (Admin only)
-app.get("/api/registered-phones", authenticateAdmin, (req, res) => {
-  const records = getPhoneRecords();
-  res.json({ success: true, count: records.length, phones: records });
-});
-
-// 3. Delete a phone number (Admin only)
-app.delete("/api/delete-phone", authenticateAdmin, (req, res) => {
-  const { phone } = req.body;
-  if (!phone) {
-    res.status(400).json({ success: false, error: "Phone is required for deletion." });
-    return;
-  }
-  
-  let records = getPhoneRecords();
-  const index = records.findIndex(r => r.phone === phone);
-  
-  if (index === -1) {
-    res.status(404).json({ success: false, error: "Phone number not found." });
-    return;
-  }
-  
-  records.splice(index, 1);
-  savePhoneRecords(records);
-  
-  res.json({ success: true, message: "Phone number removed successfully." });
-});
-
-// 4. Verify admin password
-app.post("/api/verify-admin", (req, res) => {
-  const { password } = req.body;
-  const expectedPassword = getExpectedPassword();
-  
-  if (password === expectedPassword || password === "basmadouaa2026") {
-    res.json({ success: true });
-  } else {
-    res.status(401).json({ success: false, error: "كلمة مرور خاطئة" });
-  }
 });
 
 // --- Server & Vite Setup ---

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, Instagram, Facebook, BookOpen, X, Sparkles, Heart, Award, Landmark, MapPin } from 'lucide-react';
+import { MessageSquare, Instagram, Facebook, X, Sparkles, Heart, Award, Landmark, MapPin } from 'lucide-react';
 import LuxuryLogo from './components/LuxuryLogo';
 import FloatingParticles from './components/FloatingParticles';
 import NotificationToast from './components/NotificationToast';
-import AdminDashboard from './components/AdminDashboard';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -26,36 +25,12 @@ export default function App() {
   const [toastSuccess, setToastSuccess] = useState<boolean>(true);
   const [showToast, setShowToast] = useState<boolean>(false);
 
-  // Admin state indicator
-  const [isAdminState, setIsAdminState] = useState<boolean>(false);
-
   // Modal display for "تعرف على مشروعنا"
   const [showAboutModal, setShowAboutModal] = useState<boolean>(false);
 
-  // Logo secret 5 clicks click count to enter admin page
-  const [logoClickCount, setLogoClickCount] = useState<number>(0);
-
   const handleLogoClick = () => {
-    setLogoClickCount(prev => {
-      const next = prev + 1;
-      if (next >= 5) {
-        setIsAdminState(true);
-        handleShowMessage("تم تصفح اللوحة الإدارية الفاخرة بنجاح!", true);
-        return 0;
-      }
-      return next;
-    });
+    // Just a normal click placeholder (no action needed)
   };
-
-  // Reset the click count after 3 seconds of silence
-  useEffect(() => {
-    if (logoClickCount > 0) {
-      const timer = setTimeout(() => {
-        setLogoClickCount(0);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [logoClickCount]);
 
   // Load Settings from server
   useEffect(() => {
@@ -89,19 +64,51 @@ export default function App() {
     };
   }, []);
 
-  // Silently synchronize any existing locally registered numbers to the cloud server
-  useEffect(() => {
-    const localPhones = JSON.parse(localStorage.getItem('waitlist_phones') || '[]');
-    if (localPhones.length > 0) {
-      localPhones.forEach((p: string) => {
-        fetch('/api/register-phone', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phone: p })
-        }).catch(err => console.debug("Sync failed", err));
-      });
+  const playSubtleClick = (type: 'whatsapp' | 'info' | 'social' | 'close' = 'info') => {
+    try {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      
+      const osc = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      
+      osc.type = 'sine';
+      
+      let freq = 880; // A5
+      let duration = 0.15;
+      let volume = 0.03;
+      
+      if (type === 'whatsapp') {
+        freq = 659.25; // E5
+        duration = 0.18;
+      } else if (type === 'social') {
+        freq = 987.77; // B5
+        duration = 0.12;
+      } else if (type === 'close') {
+        freq = 523.25; // C5
+        duration = 0.14;
+      }
+      
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.1, ctx.currentTime + duration);
+      
+      gainNode.gain.setValueAtTime(volume, ctx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+      
+      osc.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + duration);
+      
+      setTimeout(() => {
+        ctx.close().catch(() => {});
+      }, duration * 1000 + 50);
+    } catch (e) {
+      console.debug("Audio play failed:", e);
     }
-  }, []);
+  };
 
   const handleShowMessage = (msg: string, success: boolean) => {
     setToastMessage(msg);
@@ -110,33 +117,10 @@ export default function App() {
   };
 
   const handleWhatsappClick = () => {
+    playSubtleClick('whatsapp');
     const text = encodeURIComponent(settings.whatsappMsg);
     window.open(`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, '')}?text=${text}`, '_blank');
   };
-
-  const handleBackToMain = () => {
-    setIsAdminState(false);
-    if (currentPath.startsWith('/admin')) {
-      window.history.pushState({}, '', '/');
-      setCurrentPath('/');
-    }
-  };
-
-  // Render Admin Dashboard if path is /admin or state indicates admin view
-  if (isAdminState || currentPath.startsWith('/admin')) {
-    return (
-      <>
-        <AdminDashboard onBack={handleBackToMain} />
-        {showToast && (
-          <NotificationToast 
-            message={toastMessage} 
-            success={toastSuccess} 
-            onClose={() => setShowToast(false)} 
-          />
-        )}
-      </>
-    );
-  }
 
   return (
     <div className="relative min-h-[100dvh] bg-gradient-to-br from-[#FDFCF7] via-[#FAF8F2] to-[#F5EFE0] text-slate-800 font-sans antialiased text-right flex flex-col justify-center items-center p-0 md:p-6 sm:p-4 overflow-y-auto select-none selection:bg-brand-purple selection:text-white">
@@ -174,7 +158,11 @@ export default function App() {
           </div>
 
           {/* Dynamic Typographical Heading */}
-          <div className="space-y-3">
+          <div className="space-y-4">
+            <p className="font-sans font-medium text-slate-600 text-sm sm:text-base max-w-sm mx-auto leading-relaxed select-text">
+              {settings.description}
+            </p>
+
             <h1 className="font-serif font-black text-3xl xs:text-4xl sm:text-5xl md:text-6xl text-[#3F1058] tracking-tight leading-tight whitespace-nowrap">
               {settings.title.includes(' ') ? (
                 <>
@@ -187,10 +175,6 @@ export default function App() {
                 settings.title
               )}
             </h1>
-            
-            <p className="font-sans font-medium text-slate-600 text-sm sm:text-base max-w-sm mx-auto leading-relaxed select-text">
-              {settings.description}
-            </p>
           </div>
 
           {/* Symmetrical Instant WhatsApp Direct CTA & Socials */}
@@ -200,16 +184,16 @@ export default function App() {
                 onClick={handleWhatsappClick}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full border border-brand-green/30 hover:border-brand-green bg-brand-green/5 hover:bg-brand-green/10 text-brand-green text-sm font-bold font-sans transition-all duration-200 cursor-pointer hover:scale-[1.02] shadow-sm active:scale-95"
               >
-                <MessageSquare className="w-4 h-4 text-brand-green" />
-                تواصل معنا مباشرة عبر واتساب
+                <MessageSquare className="w-4 h-4 text-brand-green animate-pulse" />
+                للتواصل معنا عبر الواتساب
               </button>
 
               <button
-                onClick={() => setShowAboutModal(true)}
+                onClick={() => { playSubtleClick('info'); setShowAboutModal(true); }}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full border border-brand-gold/30 hover:border-brand-gold bg-brand-gold/5 hover:bg-brand-gold/10 text-brand-gold hover:text-brand-gold-dark text-sm font-bold font-sans transition-all duration-200 cursor-pointer hover:scale-[1.02] shadow-sm active:scale-95"
               >
-                <BookOpen className="w-4 h-4 text-brand-gold" />
                 تعرف على مشروعنا
+                <Sparkles className="w-4 h-4 text-brand-gold animate-pulse" />
               </button>
             </div>
 
@@ -219,6 +203,7 @@ export default function App() {
                 href={settings.instagram} 
                 target="_blank" 
                 rel="noopener noreferrer"
+                onClick={() => playSubtleClick('social')}
                 className="w-9 h-9 rounded-full border border-brand-purple/10 hover:border-brand-gold text-[#561C76] hover:text-[#C19641] bg-brand-purple/5 hover:bg-brand-purple/10 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
               >
                 <Instagram className="w-4.5 h-4.5" />
@@ -227,6 +212,7 @@ export default function App() {
                 href={settings.facebook} 
                 target="_blank" 
                 rel="noopener noreferrer"
+                onClick={() => playSubtleClick('social')}
                 className="w-9 h-9 rounded-full border border-brand-purple/10 hover:border-brand-gold text-[#561C76] hover:text-[#C19641] bg-brand-purple/5 hover:bg-brand-purple/10 flex items-center justify-center transition-all duration-200"
               >
                 <Facebook className="w-4.5 h-4.5" />
@@ -236,8 +222,8 @@ export default function App() {
 
         </main>
 
-        {/* Bottom Anchor - Symmetrical coming soon indicator badge aligned with new brand elements */}
-        <div className="w-full flex flex-col items-center space-y-2.5 z-10 pt-5 sm:pt-6 border-t border-brand-gold/10">
+        {/* Coming Soon status badge raised above the bottom divider line */}
+        <div className="w-full flex justify-center z-10 mb-2">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-bold text-brand-purple bg-brand-gold/10 border border-brand-gold/20">
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
@@ -245,7 +231,10 @@ export default function App() {
             </span>
             {settings.statusTag} | COMING SOON
           </div>
-          
+        </div>
+
+        {/* Bottom Anchor - Symmetrical footer with divider line */}
+        <div className="w-full flex flex-col items-center space-y-2.5 z-10 pt-5 sm:pt-6 border-t border-brand-gold/10">
           <p className="text-[10px] text-slate-400 font-sans tracking-wide">
             © 2026 Douaa & Basma - جميع الحقوق محفوظة
           </p>
@@ -264,7 +253,7 @@ export default function App() {
             
             {/* Close button - Top Left */}
             <button
-              onClick={() => setShowAboutModal(false)}
+              onClick={() => { playSubtleClick('close'); setShowAboutModal(false); }}
               className="absolute top-4 left-4 sm:top-5 sm:left-5 w-9 h-9 rounded-full bg-brand-gold/10 hover:bg-brand-purple/10 text-brand-purple hover:text-brand-gold flex items-center justify-center transition-all duration-200 cursor-pointer active:scale-95 z-20"
               aria-label="إغلاق النافذة"
             >
@@ -349,7 +338,7 @@ export default function App() {
               {/* Modal footer / close CTA */}
               <div className="flex justify-center pt-3">
                 <button
-                  onClick={() => setShowAboutModal(false)}
+                  onClick={() => { playSubtleClick('close'); setShowAboutModal(false); }}
                   className="px-6 py-2 rounded-full bg-brand-purple hover:bg-brand-purple-light text-white text-xs font-bold font-sans transition-all duration-200 cursor-pointer active:scale-95"
                 >
                   حسناً، فهمت 🤎

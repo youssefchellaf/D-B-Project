@@ -5,7 +5,7 @@ interface Particle {
   x: number;
   y: number;
   size: number;
-  color: 'gold' | 'purple' | 'ivory';
+  color: 'gold' | 'purple' | 'ivory' | 'green';
   delay: number;
   duration: number;
   opacity: number;
@@ -15,9 +15,11 @@ export default function FloatingParticles() {
   const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
-    // Generate 25 premium floating particles
-    const generated: Particle[] = Array.from({ length: 25 }).map((_, i) => {
-      const colors: ('gold' | 'purple' | 'ivory')[] = ['gold', 'purple', 'gold', 'ivory'];
+    // Generate 32 premium floating particles including green ones
+    const generated: Particle[] = Array.from({ length: 32 }).map((_, i) => {
+      const colors: ('gold' | 'purple' | 'ivory' | 'green')[] = [
+        'gold', 'purple', 'gold', 'ivory', 'green', 'purple', 'green'
+      ];
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
       
       return {
@@ -42,6 +44,7 @@ export default function FloatingParticles() {
           gold: 'bg-brand-gold shadow-[0_0_8px_rgba(212,175,55,0.7)]',
           purple: 'bg-brand-purple shadow-[0_0_8px_rgba(90,20,142,0.7)]',
           ivory: 'bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]',
+          green: 'bg-brand-green shadow-[0_0_8px_rgba(46,79,50,0.7)]',
         };
 
         return (

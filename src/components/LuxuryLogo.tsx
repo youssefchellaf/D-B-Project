@@ -16,9 +16,9 @@ export default function LuxuryLogo({ size = 'md', className = '', withTagline = 
   };
 
   const taglineSize = {
-    sm: 'text-xs sm:text-sm mt-1.5',
-    md: 'text-sm sm:text-base mt-2',
-    lg: 'text-base sm:text-lg md:text-xl mt-2.5',
+    sm: 'text-sm sm:text-base mt-2',
+    md: 'text-base sm:text-lg mt-2.5',
+    lg: 'text-lg sm:text-xl md:text-2xl mt-3',
   };
 
   const dividerSize = {
