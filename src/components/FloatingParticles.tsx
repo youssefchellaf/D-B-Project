@@ -38,7 +38,13 @@ export default function FloatingParticles() {
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-10 select-none">
+    <div 
+      className="absolute inset-0 overflow-hidden pointer-events-none z-0 select-none"
+      style={{
+        maskImage: 'radial-gradient(ellipse 60% 75% at center, transparent 10%, rgba(0, 0, 0, 0.15) 45%, black 80%)',
+        WebkitMaskImage: 'radial-gradient(ellipse 60% 75% at center, transparent 10%, rgba(0, 0, 0, 0.15) 45%, black 80%)',
+      }}
+    >
       {particles.map((particle) => {
         const colorClasses = {
           gold: 'bg-brand-gold shadow-[0_0_8px_rgba(212,175,55,0.7)]',

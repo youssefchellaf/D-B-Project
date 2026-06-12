@@ -5,9 +5,10 @@ interface LuxuryLogoProps {
   className?: string;
   withTagline?: boolean;
   onClick?: () => void;
+  tagline?: string;
 }
 
-export default function LuxuryLogo({ size = 'md', className = '', withTagline = true, onClick }: LuxuryLogoProps) {
+export default function LuxuryLogo({ size = 'md', className = '', withTagline = true, onClick, tagline }: LuxuryLogoProps) {
   // Brand typographical sizing
   const titleSize = {
     sm: 'text-3xl xs:text-4xl sm:text-5xl',
@@ -47,10 +48,39 @@ export default function LuxuryLogo({ size = 'md', className = '', withTagline = 
         <span className="h-[1px] flex-1 bg-[#C19641] opacity-40" />
       </div>
 
-      {/* Arabic Tagline */}
+      {/* Dynamic Tagline */}
       {withTagline && (
-        <p className={`font-serif font-bold text-[#561C76] text-center tracking-wide ${taglineSize[size]}`}>
-          بسمة و دعاء <span className="text-[#C19641] font-sans font-light">|</span> عصائر و تحليات فاخرة
+        <p className={`text-center tracking-wide ${taglineSize[size]}`}>
+          {tagline ? (
+            tagline.includes('|') ? (() => {
+              const part1 = tagline.split('|')[0];
+              const part2 = tagline.split('|')[1];
+              const isArabicPart2 = /[\u0600-\u06FF]/.test(part2);
+              return (
+                <>
+                  <span className={`font-serif font-bold ${isArabicPart2 ? 'text-[#2E4F32]' : 'text-[#561C76]'}`}>
+                    {part1}
+                  </span>
+                  <span className="text-[#C19641] font-sans font-light mx-2">|</span>
+                  <span className={isArabicPart2 
+                    ? 'font-serif font-bold text-[#561C76]' 
+                    : 'font-sans font-semibold tracking-normal text-[#2E4F32]'}>
+                    {part2}
+                  </span>
+                </>
+              );
+            })() : (
+              <span className={/[\u0600-\u06FF]/.test(tagline) ? 'font-serif font-bold text-[#561C76]' : 'font-sans font-semibold tracking-normal text-[#2E4F32]'}>
+                {tagline}
+              </span>
+            )
+          ) : (
+            <>
+              <span className="font-serif font-bold text-[#2E4F32]">بسمة و دعاء</span>{" "}
+              <span className="text-[#C19641] font-sans font-light mx-2">|</span>{" "}
+              <span className="font-serif font-bold text-[#561C76]">عصائر و تحليات فاخرة</span>
+            </>
+          )}
         </p>
       )}
     </div>
