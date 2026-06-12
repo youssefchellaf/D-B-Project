@@ -1,15 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <!-- Purple Circle with Gold luxury border -->
-  <circle cx="256" cy="256" r="236" fill="#561C76" />
-  <circle cx="256" cy="256" r="216" fill="none" stroke="#C19641" stroke-width="12" stroke-linecap="round" />
+  <!-- Circle base with the cream background color of the site and a purple border -->
+  <circle cx="256" cy="256" r="236" fill="#FAF9F6" stroke="#561C76" stroke-width="24" />
   
-  <!-- Mathematically symmetrical Moroccan/Islamic Green Star with subtle gold border to stand out -->
-  <polygon points="256,106 290,209 399,210 311,274 344,377 256,314 168,377 201,274 113,210 222,209" 
-           fill="#2E4F32" 
-           stroke="#C19641" 
-           stroke-width="8" 
-           stroke-linejoin="round" />
-
-  <!-- Dynamic gold center element to tie the luxury aesthetic together -->
-  <circle cx="256" cy="256" r="16" fill="#FAF9F6" stroke="#C19641" stroke-width="4" />
+  <!-- Mathematically symmetrical Moroccan Green pentagram star with intersecting lines -->
+  <path d="M 256 123 L 341 385 L 118 223 L 394 223 L 171 385 Z" 
+        fill="none" 
+        stroke="#2E4F32" 
+        stroke-width="28" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
 </svg>
