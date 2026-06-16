@@ -2,54 +2,119 @@
   <defs>
     <!-- Professional background gradient blending Premium Purple and Moroccan Green -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#561C76" />
-      <stop offset="35%" stop-color="#3c1353" />
-      <stop offset="65%" stop-color="#1c3621" />
-      <stop offset="100%" stop-color="#2E4F32" />
+      <stop offset="0%" stop-color="#4B1565" />
+      <stop offset="40%" stop-color="#2D0D3D" />
+      <stop offset="70%" stop-color="#122A16" />
+      <stop offset="100%" stop-color="#1F4224" />
     </linearGradient>
 
-    <!-- Professional 3D-like Gold Metallic gradient for the juice cup & elements -->
+    <!-- Professional 3D-like Gold Metallic gradient for the juice. Clear, vibrant, and elegant. -->
     <linearGradient id="goldGrad" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#B8860B" />
-      <stop offset="30%" stop-color="#F2C542" />
-      <stop offset="70%" stop-color="#FFD700" />
-      <stop offset="100%" stop-color="#FFF2B2" />
+      <stop offset="25%" stop-color="#D4AF37" />
+      <stop offset="50%" stop-color="#FFD700" />
+      <stop offset="75%" stop-color="#FCE68A" />
+      <stop offset="100%" stop-color="#FFF8DC" />
+    </linearGradient>
+    
+    <!-- Plastic highlight gradient to give it a glass/plastic reflection -->
+    <linearGradient id="plasticSpecular" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="15%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="60%" stop-color="#ffffff" stop-opacity="0.0"/>
+      <stop offset="85%" stop-color="#ffffff" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.4"/>
+    </linearGradient>
+
+    <!-- Semi-transparent gold for the plastic cup itself -->
+    <linearGradient id="cupOutline" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#B8860B" stop-opacity="0.8"/>
     </linearGradient>
   </defs>
 
-  <!-- Circular Purple-Green Gradient Background -->
+  <!-- Circular Outer Background with Royal Purple and Deep Moroccan Green -->
   <circle cx="256" cy="256" r="236" fill="url(#bgGrad)" />
   
-  <!-- Premium Golden Juice Glass and Straw Design -->
-  <!-- Straw -->
-  <path d="M235 250 L315 80 L355 95" 
+  <!-- Outer Gold Ring for prestige/quality -->
+  <circle cx="256" cy="256" r="230" fill="none" stroke="url(#goldGrad)" stroke-width="6" opacity="0.85" />
+
+  <!-- Straw: Modern angled straw sticking out from the center of the dome lid -->
+  <path d="M 270,110 L 325,55 L 345,67 " 
         fill="none" 
         stroke="url(#goldGrad)" 
-        stroke-width="28" 
+        stroke-width="20" 
         stroke-linecap="round" 
         stroke-linejoin="round" />
+  <!-- Straw inner core line to give it depth -->
+  <path d="M 270,110 L 325,55 L 345,67 " 
+        fill="none" 
+        stroke="#4B1565" 
+        stroke-width="5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        opacity="0.6" />
 
-  <!-- Cup Body -->
-  <path d="M180 190 L332 190 L295 400 Q290 420 270 420 L242 420 Q222 420 217 400 Z" 
+  <!-- The Cup Base Shadow for 3D realism -->
+  <ellipse cx="256" cy="415" rx="75" ry="18" fill="#111111" opacity="0.5" />
+
+  <!-- The Juice itself inside the cup (tapered plastic cup shape) -->
+  <path d="M 185,225 L 327,225 L 297,390 Q 295,400 285,400 L 227,400 Q 217,400 215,390 Z" 
         fill="url(#goldGrad)" />
 
-  <!-- Glass Rim Highlight (Visual cutout using background gradient) -->
-  <path d="M190 205 L322 205" 
+  <!-- Modern Plastic Cup Outline / Body -->
+  <!-- It has ribs/lines characteristic of professional takeout plastic cups -->
+  <path d="M 180,210 L 332,210 L 297,395 Q 295,410 280,410 L 232,410 Q 217,410 215,395 Z" 
         fill="none" 
-        stroke="url(#bgGrad)" 
+        stroke="url(#cupOutline)" 
         stroke-width="12" 
-        stroke-linecap="round" />
+        stroke-linejoin="round" />
 
-  <!-- Lemon/Orange Slice on Rim -->
-  <circle cx="165" cy="180" r="44" fill="url(#goldGrad)" stroke="url(#bgGrad)" stroke-width="10" />
+  <!-- Rib 1 (Visual rib of plastic cup) -->
+  <path d="M 194,275 L 318,275" fill="none" stroke="url(#cupOutline)" stroke-width="5" opacity="0.75" />
+  <!-- Rib 2 (Visual rib of plastic cup) -->
+  <path d="M 203,320 L 309,320" fill="none" stroke="url(#cupOutline)" stroke-width="5" opacity="0.75" />
+  <!-- Rib 3 (Visual rib of plastic cup) -->
+  <path d="M 211,360 L 301,360" fill="none" stroke="url(#cupOutline)" stroke-width="5" opacity="0.75" />
+
+  <!-- Dome Lid: Professional circular transparent/golden dome typical of takeout cups -->
+  <!-- Half-circle or Q-arc path for the dome top -->
+  <path d="M 170,210 Q 170,135 256,135 Q 342,135 342,210 Z" 
+        fill="url(#goldGrad)" 
+        opacity="0.25" />
+  
+  <path d="M 170,210 Q 170,135 256,135 Q 342,135 342,210 Z" 
+        fill="none" 
+        stroke="url(#cupOutline)" 
+        stroke-width="10" />
+
+  <!-- Dome Rim (The flat lip of the lid) -->
+  <rect x="160" y="200" width="192" height="15" rx="7" fill="url(#goldGrad)" stroke="url(#cupOutline)" stroke-width="3" />
+
+  <!-- Plastic Specular Reflection Overlay across the entire cup/lid -->
+  <path d="M 180,210 L 332,210 L 297,395 Q 295,410 280,410 L 232,410 Q 217,410 215,395 Z" 
+        fill="url(#plasticSpecular)" />
+
+  <!-- Gold Lemon slice perched on the lip of the plastic cup edge -->
+  <circle cx="160" cy="180" r="35" fill="url(#goldGrad)" stroke="#1F4224" stroke-width="7" />
   <!-- Slice Segments -->
-  <line x1="165" y1="180" x2="165" y2="136" stroke="url(#bgGrad)" stroke-width="6" />
-  <line x1="165" y1="180" x2="127" y2="202" stroke="url(#bgGrad)" stroke-width="6" />
-  <line x1="165" y1="180" x2="203" y2="202" stroke="url(#bgGrad)" stroke-width="6" />
-  <line x1="165" y1="180" x2="193" y2="148" stroke="url(#bgGrad)" stroke-width="6" />
-  <line x1="165" y1="180" x2="137" y2="148" stroke="url(#bgGrad)" stroke-width="6" />
+  <line x1="160" y1="180" x2="160" y2="148" stroke="#1F4224" stroke-width="4" />
+  <line x1="160" y1="180" x2="132" y2="196" stroke="#1F4224" stroke-width="4" />
+  <line x1="160" y1="180" x2="188" y2="196" stroke="#1F4224" stroke-width="4" />
+  <line x1="160" y1="180" x2="182" y2="158" stroke="#1F4224" stroke-width="4" />
+  <line x1="160" y1="180" x2="138" y2="158" stroke="#1F4224" stroke-width="4" />
 
-  <!-- Playful Juice Bubbles/Droplets on the right -->
-  <circle cx="345" cy="210" r="16" fill="url(#goldGrad)" />
-  <circle cx="365" cy="250" r="10" fill="url(#goldGrad)" />
+  <!-- Ice cubes / bubbles inside the golden drink for high fidelity -->
+  <!-- Bubble 1 -->
+  <circle cx="225" cy="270" r="12" fill="#FFFFFF" opacity="0.5" />
+  <circle cx="222" cy="267" r="4" fill="#FFFFFF" opacity="0.8" />
+  <!-- Bubble 2 -->
+  <circle cx="280" cy="250" r="14" fill="#FFFFFF" opacity="0.35" />
+  <circle cx="276" cy="246" r="5" fill="#FFFFFF" opacity="0.6" />
+  <!-- Bubble 3 -->
+  <circle cx="250" cy="330" r="10" fill="#FFFFFF" opacity="0.4" />
+  <!-- Splashy Droplets or sparkles on the side of the logo -->
+  <path d="M 370,220 Q 380,210 375,200 Q 365,210 370,220 Z" fill="url(#goldGrad)" />
+  <path d="M 385,250 Q 395,245 392,235 Q 382,242 385,250 Z" fill="url(#goldGrad)" />
 </svg>

@@ -46,7 +46,7 @@ export const translations: Record<LanguageType, TranslationSet> = {
     location: "الفنيدق، المغرب",
     title: "شيء مميز قيد التحضير",
     description: "نعمل على إطلاق تجربة فاخرة تليق بكم لعرض أشهى العصائر الطبيعية والتحليات الفاخرة بلمسات نسائية مغربية متقنة وبكل حب وشغف.",
-    pageTitle: "دعاء و بسمة | الصفحة الرسمية لعلامتنا التجارية",
+    pageTitle: "Douaa & Basma",
     whatsappBtn: "راسلنا عبر واتساب",
     aboutBtn: "تعرف على مشروعنا",
     footerRights: "© 2026 Douaa & Basma - جميع الحقوق محفوظة",

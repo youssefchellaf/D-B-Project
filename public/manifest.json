@@ -1,0 +1,21 @@
+{
+  "short_name": "Douaa & Basma",
+  "name": "Douaa & Basma",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#122A16",
+  "theme_color": "#4B1565",
+  "display": "standalone",
+  "orientation": "portrait"
+}
