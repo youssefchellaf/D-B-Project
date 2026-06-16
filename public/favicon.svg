@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
   <defs>
-    <!-- Professional background gradient blending Premium Purple and Moroccan Green -->
+    <!-- Professional background gradient blending Moroccan Green and Premium Purple (Reversed colorway) -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4B1565" />
-      <stop offset="40%" stop-color="#2D0D3D" />
-      <stop offset="70%" stop-color="#122A16" />
-      <stop offset="100%" stop-color="#1F4224" />
+      <stop offset="0%" stop-color="#1F4224" />
+      <stop offset="35%" stop-color="#122A16" />
+      <stop offset="65%" stop-color="#2D0D3D" />
+      <stop offset="100%" stop-color="#4B1565" />
     </linearGradient>
 
     <!-- Professional 3D-like Gold Metallic gradient for the juice. Clear, vibrant, and elegant. -->
@@ -39,22 +39,6 @@
   
   <!-- Outer Gold Ring for prestige/quality -->
   <circle cx="256" cy="256" r="230" fill="none" stroke="url(#goldGrad)" stroke-width="6" opacity="0.85" />
-
-  <!-- Straw: Modern angled straw sticking out from the center of the dome lid -->
-  <path d="M 270,110 L 325,55 L 345,67 " 
-        fill="none" 
-        stroke="url(#goldGrad)" 
-        stroke-width="20" 
-        stroke-linecap="round" 
-        stroke-linejoin="round" />
-  <!-- Straw inner core line to give it depth -->
-  <path d="M 270,110 L 325,55 L 345,67 " 
-        fill="none" 
-        stroke="#4B1565" 
-        stroke-width="5" 
-        stroke-linecap="round" 
-        stroke-linejoin="round" 
-        opacity="0.6" />
 
   <!-- The Cup Base Shadow for 3D realism -->
   <ellipse cx="256" cy="415" rx="75" ry="18" fill="#111111" opacity="0.5" />
