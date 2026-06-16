@@ -85,9 +85,57 @@
       <!-- Elegant Arabesque Brand Initial Loading Screen -->
       <div class="luxury-loader-container">
         <div class="luxury-loader-content">
-          <!-- Pulsating Luxury Glass Favicon (Matching favicon exactly: Golden Cup, No Straw, Green-Purple background) -->
+          <!-- Pulsating Luxury Glass SVG (Matching favicon exactly: Golden Cup, No Straw, Green-Purple background) -->
           <div class="luxury-glass-wrapper">
-            <img src="/favicon.svg" class="luxury-glass-svg" alt="Douaa &amp; Basma" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="luxury-glass-svg">
+              <defs>
+                <!-- Professional 3D-like Gold Metallic gradient for the cup -->
+                <linearGradient id="goldGradLoader" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#B8860B" />
+                  <stop offset="30%" stop-color="#D4AF37" />
+                  <stop offset="70%" stop-color="#FFD700" />
+                  <stop offset="100%" stop-color="#FFF2B2" />
+                </linearGradient>
+                <linearGradient id="specularLoader" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+                  <stop offset="15%" stop-color="#ffffff" stop-opacity="0.2"/>
+                  <stop offset="60%" stop-color="#ffffff" stop-opacity="0.0"/>
+                  <stop offset="85%" stop-color="#ffffff" stop-opacity="0.1"/>
+                  <stop offset="100%" stop-color="#ffffff" stop-opacity="0.4"/>
+                </linearGradient>
+                <!-- Semi-transparent gold for outline -->
+                <linearGradient id="cupOutlineLoader" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#FFD700" stop-opacity="0.8"/>
+                  <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#B8860B" stop-opacity="0.8"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Inner glow shadows -->
+              <ellipse cx="256" cy="415" rx="75" ry="18" fill="#111111" opacity="0.4" />
+
+              <!-- Juice layer -->
+              <path d="M 185,225 L 327,225 L 297,390 Q 295,400 285,400 L 227,400 Q 217,400 215,390 Z" fill="url(#goldGradLoader)" />
+
+              <!-- Cup contour ribs -->
+              <path d="M 180,210 L 332,210 L 297,395 Q 295,410 280,410 L 232,410 Q 217,410 215,395 Z" fill="none" stroke="url(#cupOutlineLoader)" stroke-width="12" stroke-linejoin="round" />
+              <path d="M 194,275 L 318,275" fill="none" stroke="url(#cupOutlineLoader)" stroke-width="5" opacity="0.7" />
+              <path d="M 203,320 L 309,320" fill="none" stroke="url(#cupOutlineLoader)" stroke-width="5" opacity="0.7" />
+              <path d="M 211,360 L 301,360" fill="none" stroke="url(#cupOutlineLoader)" stroke-width="5" opacity="0.7" />
+
+              <!-- Dome top -->
+              <path d="M 170,210 Q 170,135 256,135 Q 342,135 342,210 Z" fill="url(#goldGradLoader)" opacity="0.2" />
+              <path d="M 170,210 Q 170,135 256,135 Q 342,135 342,210 Z" fill="none" stroke="url(#cupOutlineLoader)" stroke-width="10" />
+              <rect x="160" y="200" width="192" height="15" rx="7" fill="url(#goldGradLoader)" stroke="url(#cupOutlineLoader)" stroke-width="3" />
+
+              <!-- Specular plastic gleam -->
+              <path d="M 180,210 L 332,210 L 297,395 Q 295,410 280,410 L 232,410 Q 217,410 215,395 Z" fill="url(#specularLoader)" />
+
+              <!-- Bubbles -->
+              <circle cx="225" cy="270" r="10" fill="#FFFFFF" opacity="0.5" />
+              <circle cx="280" cy="250" r="12" fill="#FFFFFF" opacity="0.4" />
+              <circle cx="250" cy="330" r="8" fill="#FFFFFF" opacity="0.4" />
+            </svg>
           </div>
 
           <!-- Dynamic glowing spinner tracking circle around logo -->
