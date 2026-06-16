@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, Instagram, Facebook, X, Sparkles, Heart, Award, Landmark, MapPin, Languages, ChevronDown } from 'lucide-react';
 import LuxuryLogo from './components/LuxuryLogo';
+import CountdownTimer from './components/CountdownTimer';
 import FloatingParticles from './components/FloatingParticles';
 import NotificationToast from './components/NotificationToast';
 import { translations, LanguageType } from './translations';
@@ -16,7 +17,7 @@ export default function App() {
     description: "نعمل على إطلاق تجربة فاخرة تليق بكم لعرض أشهى العصائر الطبيعية والتحليات الفاخرة بلمسات نسائية مغربية متقنة وبكل حب وشغف.",
     pageTitle: "دعاء و بسمة | الصفحة الرسمية لعلامتنا التجارية",
     whatsapp: "212705908383",
-    whatsappMsg: "مرحباً، أود الاستفسار والتواصل معكم بخصوص خدماتكم الفاخرة للتحليات والعصائر المترقبة",
+    whatsappMsg: "مرحبا! اريد مشاهدة الكتالوج 📋",
     instagram: "https://instagram.com/douaabasma75",
     facebook: "https://facebook.com/douaabasma75",
   });
@@ -244,8 +245,40 @@ export default function App() {
             </h1>
           </div>
 
+          {/* Symmetrical Elegant Countdown Timer */}
+          <CountdownTimer t={t} serifFont={serifFont} />
+
+          {/* Symmetrical Coming Soon status badge in Premium Silver Theme */}
+          <div className="w-full flex justify-center z-10 !mt-2 !mb-2">
+            <div className="inline-flex items-center gap-2 py-1 text-[13px] font-bold text-slate-500 transition-all duration-300 cursor-default">
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
+              </span>
+              {lang === 'ar' ? (
+                <span className="flex flex-row items-center gap-1.5 font-sans" dir="ltr">
+                  <span>COMING SOON</span>
+                  <span className="text-slate-400 font-normal">|</span>
+                  <span className="flex flex-row items-center gap-0.5">
+                    <span className="font-sans">...</span>
+                    <span>{(settings.statusTag || 'قريباً').replace(/\./g, '').trim()}</span>
+                  </span>
+                </span>
+              ) : (
+                <span className="flex flex-row items-center gap-1.5 font-sans" dir="ltr">
+                  <span>{lang === 'es' ? 'PRÓXIMAMENTE' : lang === 'fr' ? 'BIENTÔT DISPONIBLE' : 'COMING SOON'}</span>
+                  <span className="text-slate-400 font-normal">|</span>
+                  <span className="flex flex-row items-center gap-0.5">
+                    <span className="font-sans">...</span>
+                    <span>{(settings.statusTag || 'قريباً').replace(/\./g, '').trim()}</span>
+                  </span>
+                </span>
+              )}
+            </div>
+          </div>
+
           {/* Symmetrical Instant WhatsApp Direct CTA & Socials */}
-          <div className="w-full max-w-md pt-2 space-y-4">
+          <div className="w-full max-w-md !mt-1 pt-0 space-y-4">
             <div className="flex flex-col items-center gap-3 w-full">
               <button
                 onClick={handleWhatsappClick}
@@ -288,31 +321,6 @@ export default function App() {
           </div>
 
         </main>
-
-        {/* Coming Soon status badge raised above the bottom divider line */}
-        <div className="w-full flex justify-center z-10 mb-2">
-          <div className={`inline-flex items-center gap-2 py-2 rounded-full text-[11px] font-bold text-brand-purple bg-brand-gold/10 border border-brand-gold/20 transition-all duration-300 ${lang === 'ar' ? 'px-14 sm:px-16' : 'px-4'}`}>
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
-            </span>
-            {lang === 'ar' ? (
-              <span className="flex flex-row items-center gap-0.5" dir="ltr">
-                <span className="font-sans">...</span>
-                <span>{(settings.statusTag || 'قريباً').replace(/\./g, '').trim()}</span>
-              </span>
-            ) : (
-              <span className="flex flex-row items-center gap-1.5 font-sans" dir="ltr">
-                <span>{lang === 'es' ? 'PRÓXIMAMENTE' : lang === 'fr' ? 'BIENTÔT DISPONIBLE' : 'COMING SOON'}</span>
-                <span className="text-[#561C76]/30 font-normal">|</span>
-                <span className="flex flex-row items-center gap-0.5">
-                  <span className="font-sans">...</span>
-                  <span>{(settings.statusTag || 'قريباً').replace(/\./g, '').trim()}</span>
-                </span>
-              </span>
-            )}
-          </div>
-        </div>
 
         {/* Bottom Anchor - Symmetrical footer with divider line */}
         <div className="w-full flex flex-col items-center space-y-2.5 z-10 pt-5 sm:pt-6 border-t border-brand-gold/10">

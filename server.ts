@@ -25,7 +25,7 @@ const defaultSettings = {
   description: "نعمل على إطلاق تجربة فاخرة تليق بكم لعرض أشهى العصائر الطبيعية والتحليات الفاخرة بلمسات نسائية مغربية متقنة وبكل حب وشغف.",
   pageTitle: "دعاء و بسمة | الصفحة الرسمية لعلامتنا التجارية",
   whatsapp: "212705908383",
-  whatsappMsg: "مرحباً، أود الاستفسار والتواصل معكم بخصوص خدماتكم الفاخرة للتحليات والعصائر المترقبة",
+  whatsappMsg: "مرحبا! اريد مشاهدة الكتالوج 📋",
   instagram: "https://instagram.com/douaabasma75",
   facebook: "https://facebook.com/douaabasma75",
 };

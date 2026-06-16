@@ -29,6 +29,13 @@ export interface TranslationSet {
 
   // Tagline
   logoTagline: string;
+
+  // Countdown translation keys
+  countdownTitle: string;
+  days: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
 }
 
 export type LanguageType = 'ar' | 'en' | 'es' | 'fr';
@@ -40,7 +47,7 @@ export const translations: Record<LanguageType, TranslationSet> = {
     title: "شيء مميز قيد التحضير",
     description: "نعمل على إطلاق تجربة فاخرة تليق بكم لعرض أشهى العصائر الطبيعية والتحليات الفاخرة بلمسات نسائية مغربية متقنة وبكل حب وشغف.",
     pageTitle: "دعاء و بسمة | الصفحة الرسمية لعلامتنا التجارية",
-    whatsappBtn: "للتواصل معنا عبر الواتساب",
+    whatsappBtn: "راسلنا عبر واتساب",
     aboutBtn: "تعرف على مشروعنا",
     footerRights: "© 2026 Douaa & Basma - جميع الحقوق محفوظة",
     
@@ -59,7 +66,12 @@ export const translations: Record<LanguageType, TranslationSet> = {
     quoteText: "\"الجودة ليست خياراً بل هي انعكاس لأصالتنا. كل كوب عصير طازج وكل قطعة تحلية نصنعها في مطبخنا، نعتبرها تحفة فنية مميزة نسعد بتقديمها لكم.\"",
     quoteAuthor: "— بسمة ودعاء",
     modalClose: "حسناً، فهمت 🤎",
-    logoTagline: "بسمة و دعاء | عصائر و تحليات طازجة"
+    logoTagline: "بسمة و دعاء | عصائر و تحليات طازجة",
+    countdownTitle: "الإفتتاح الرسمي للمشروع بعد:",
+    days: "أيام",
+    hours: "ساعات",
+    minutes: "دقائق",
+    seconds: "ثواني"
   },
   en: {
     statusTag: "Coming Soon...",
@@ -86,7 +98,12 @@ export const translations: Record<LanguageType, TranslationSet> = {
     quoteText: "\"Quality is not an option, but a reflection of our authenticity. Every cup of fresh juice and every dessert we make in our kitchen is a masterpiece we are delighted to serve to you.\"",
     quoteAuthor: "— Douaa & Basma",
     modalClose: "Got it! 🤎",
-    logoTagline: "بسمة و دعاء | Fresh Juices & Desserts"
+    logoTagline: "بسمة و دعاء | Fresh Juices & Desserts",
+    countdownTitle: "Official Project Launch In:",
+    days: "Days",
+    hours: "Hours",
+    minutes: "Minutes",
+    seconds: "Seconds"
   },
   es: {
     statusTag: "Próximamente...",
@@ -113,7 +130,12 @@ export const translations: Record<LanguageType, TranslationSet> = {
     quoteText: "\"La calidad no es una opción, sino un reflejo de nuestra autenticidad. Cada taza de jugo fresco y cada postre que preparamos en nuestra cocina es una obra de arte que nos complace servirle.\"",
     quoteAuthor: "— Douaa y Basma",
     modalClose: "¡Entendido! 🤎",
-    logoTagline: "بسمة و دعاء | Zumos y Postres Frescos"
+    logoTagline: "بسمة و دعاء | Zumos y Postres Frescos",
+    countdownTitle: "Inauguración oficial del proyecto en:",
+    days: "Días",
+    hours: "Horas",
+    minutes: "Minutos",
+    seconds: "Segundos"
   },
   fr: {
     statusTag: "Prochainement...",
@@ -140,6 +162,11 @@ export const translations: Record<LanguageType, TranslationSet> = {
     quoteText: "\"La qualité n'est pas une option, mais le reflet de notre authenticité. Chaque tasse de jus frais et chaque préparation que nous réalisons dans notre cuisine est un chef-d'œuvre.\"",
     quoteAuthor: "— Douaa & Basma",
     modalClose: "D'accord, j'ai compris 🤎",
-    logoTagline: "بسمة و دعاء | Jus & Desserts Frais"
+    logoTagline: "بسمة و دعاء | Jus & Desserts Frais",
+    countdownTitle: "Lancement officiel du projet dans :",
+    days: "Jours",
+    hours: "Heures",
+    minutes: "Minutes",
+    seconds: "Secondes"
   }
 };

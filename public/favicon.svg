@@ -1,12 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <!-- Circle base with light gold background color of the project and a purple border -->
-  <circle cx="256" cy="256" r="236" fill="#ECD18A" stroke="#561C76" stroke-width="24" />
+  <!-- Circular Green Background (#2E4F32 is the brand Moroccan Green) -->
+  <circle cx="256" cy="256" r="236" fill="#2E4F32" />
   
-  <!-- Mathematically symmetrical Moroccan Green pentagram star with intersecting lines -->
-  <path d="M 256 123 L 341 385 L 118 223 L 394 223 L 171 385 Z" 
+  <!-- Premium Purple Juice Glass and Straw Design (#561C76 is the brand Purple) -->
+  <!-- Straw -->
+  <path d="M235 250 L315 80 L355 95" 
         fill="none" 
-        stroke="#2E4F32" 
+        stroke="#561C76" 
         stroke-width="28" 
         stroke-linecap="round" 
         stroke-linejoin="round" />
+
+  <!-- Cup Body -->
+  <path d="M180 190 L332 190 L295 400 Q290 420 270 420 L242 420 Q222 420 217 400 Z" 
+        fill="#561C76" />
+
+  <!-- Glass Rim Highlight (Visual cutout using background green) -->
+  <path d="M190 205 L322 205" 
+        fill="none" 
+        stroke="#2E4F32" 
+        stroke-width="12" 
+        stroke-linecap="round" />
+
+  <!-- Lemon/Orange Slice on Rim -->
+  <circle cx="165" cy="180" r="44" fill="#561C76" stroke="#2E4F32" stroke-width="10" />
+  <!-- Slice Segments -->
+  <line x1="165" y1="180" x2="165" y2="136" stroke="#2E4F32" stroke-width="6" />
+  <line x1="165" y1="180" x2="127" y2="202" stroke="#2E4F32" stroke-width="6" />
+  <line x1="165" y1="180" x2="203" y2="202" stroke="#2E4F32" stroke-width="6" />
+  <line x1="165" y1="180" x2="193" y2="148" stroke="#2E4F32" stroke-width="6" />
+  <line x1="165" y1="180" x2="137" y2="148" stroke="#2E4F32" stroke-width="6" />
+
+  <!-- Playful Juice Bubbles/Droplets on the right -->
+  <circle cx="345" cy="210" r="16" fill="#561C76" />
+  <circle cx="365" cy="250" r="10" fill="#561C76" />
 </svg>
