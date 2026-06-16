@@ -96,14 +96,7 @@
   <path d="M 180,210 L 332,210 L 297,395 Q 295,410 280,410 L 232,410 Q 217,410 215,395 Z" 
         fill="url(#plasticSpecular)" />
 
-  <!-- Gold Lemon slice perched on the lip of the plastic cup edge -->
-  <circle cx="160" cy="180" r="35" fill="url(#goldGrad)" stroke="#1F4224" stroke-width="7" />
-  <!-- Slice Segments -->
-  <line x1="160" y1="180" x2="160" y2="148" stroke="#1F4224" stroke-width="4" />
-  <line x1="160" y1="180" x2="132" y2="196" stroke="#1F4224" stroke-width="4" />
-  <line x1="160" y1="180" x2="188" y2="196" stroke="#1F4224" stroke-width="4" />
-  <line x1="160" y1="180" x2="182" y2="158" stroke="#1F4224" stroke-width="4" />
-  <line x1="160" y1="180" x2="138" y2="158" stroke="#1F4224" stroke-width="4" />
+
 
   <!-- Ice cubes / bubbles inside the golden drink for high fidelity -->
   <!-- Bubble 1 -->
