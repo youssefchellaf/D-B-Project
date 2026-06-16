@@ -89,41 +89,60 @@ export default function App() {
       if (!AudioContext) return;
       const ctx = new AudioContext();
       
-      const osc = ctx.createOscillator();
-      const gainNode = ctx.createGain();
-      
-      osc.type = 'sine';
-      
-      let freq = 880; // A5
-      let duration = 0.15;
-      let volume = 0.03;
-      
-      if (type === 'whatsapp') {
-        freq = 659.25; // E5
-        duration = 0.18;
-      } else if (type === 'social') {
-        freq = 987.77; // B5
-        duration = 0.12;
-      } else if (type === 'close') {
-        freq = 523.25; // C5
-        duration = 0.14;
+      if (ctx.state === 'suspended') {
+        ctx.resume();
       }
-      
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(freq * 1.1, ctx.currentTime + duration);
-      
-      gainNode.gain.setValueAtTime(volume, ctx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
-      
-      osc.connect(gainNode);
-      gainNode.connect(ctx.destination);
-      
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + duration);
-      
+
+      const playTone = (freq: number, duration: number, vol: number, oscType: OscillatorType = 'sine', slideTo?: number, delay: number = 0) => {
+        setTimeout(() => {
+          try {
+            if (ctx.state === 'closed') return;
+            const osc = ctx.createOscillator();
+            const gainNode = ctx.createGain();
+            
+            osc.type = oscType;
+            osc.frequency.setValueAtTime(freq, ctx.currentTime);
+            if (slideTo) {
+              osc.frequency.exponentialRampToValueAtTime(slideTo, ctx.currentTime + duration);
+            }
+            
+            gainNode.gain.setValueAtTime(vol, ctx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+            
+            osc.connect(gainNode);
+            gainNode.connect(ctx.destination);
+            
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + duration);
+          } catch (err) {
+            console.debug("Subtle audio error:", err);
+          }
+        }, delay);
+      };
+
+      if (type === 'whatsapp') {
+        // High quality dual-frequency chime
+        playTone(587.33, 0.16, 0.018, 'sine', 659.25, 0);   // D5 -> E5
+        playTone(880.00, 0.22, 0.012, 'sine', 987.77, 60);  // A5 -> B5 (harmonious luxury chord)
+      } else if (type === 'social') {
+        // High fidelity elegant sparkle arpeggio
+        playTone(783.99, 0.12, 0.015, 'sine', undefined, 0); // G5
+        playTone(987.77, 0.12, 0.015, 'sine', undefined, 30); // B5
+        playTone(1174.66, 0.18, 0.01, 'sine', undefined, 60); // D6
+      } else if (type === 'close') {
+        // Soft descending dismissal note
+        playTone(523.25, 0.15, 0.015, 'sine', 392.00, 0); // C5 -> G4
+        playTone(392.00, 0.20, 0.012, 'sine', 261.63, 50); // G4 -> C4
+      } else {
+        // Tactile modern soft click/pop (default info buttons)
+        playTone(880, 0.08, 0.02, 'sine', 440); // Rapid pitch slide for organic touch
+      }
+
+      // Close context to release system resources safely after playback finishes
       setTimeout(() => {
         ctx.close().catch(() => {});
-      }, duration * 1000 + 50);
+      }, 500);
+
     } catch (e) {
       console.debug("Audio play failed:", e);
     }
