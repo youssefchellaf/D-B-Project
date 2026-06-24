@@ -2,10 +2,10 @@
   <defs>
     <!-- Professional background gradient blending Moroccan Green and Premium Purple (Reversed colorway) -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1F4224" />
-      <stop offset="35%" stop-color="#122A16" />
-      <stop offset="65%" stop-color="#2D0D3D" />
-      <stop offset="100%" stop-color="#4B1565" />
+      <stop offset="0%" stop-color="#2D5C34" />
+      <stop offset="35%" stop-color="#1E3F24" />
+      <stop offset="65%" stop-color="#471A5E" />
+      <stop offset="100%" stop-color="#6F2694" />
     </linearGradient>
 
     <!-- Professional 3D-like Gold Metallic gradient for the juice. Clear, vibrant, and elegant. -->
