@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, Instagram, Facebook, X, Sparkles, Heart, Award, Landmark, MapPin, Languages, ChevronDown } from 'lucide-react';
 import LuxuryLogo from './components/LuxuryLogo';
-import CountdownTimer from './components/CountdownTimer';
 import FloatingParticles from './components/FloatingParticles';
 import NotificationToast from './components/NotificationToast';
 import { translations, LanguageType } from './translations';
@@ -263,9 +262,6 @@ export default function App() {
               )}
             </h1>
           </div>
-
-          {/* Symmetrical Elegant Countdown Timer */}
-          <CountdownTimer t={t} serifFont={serifFont} />
 
           {/* Symmetrical Coming Soon status badge in Premium Silver Theme */}
           <div className="w-full flex justify-center z-10 !mt-2 !mb-2">
